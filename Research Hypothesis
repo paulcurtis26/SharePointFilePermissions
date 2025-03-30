@@ -1,0 +1,99 @@
+### Key Points
+- Research suggests shared links without expiration dates in SharePoint can allow unauthorized access, even after group membership changes.
+- It seems likely that repeatedly sharing links without expiries creates persistent access points, bypassing updated security measures.
+- The evidence leans toward this vulnerability being exploitable, posing risks like data breaches by former group members with old links.
+- An unexpected detail is the difficulty in uncovering this due to SharePoint's security, throttling, and 10,000-object query limits.
+
+### SharePoint Shared Links Vulnerability
+
+**Overview**  
+Shared links in SharePoint, especially "Anyone Links," can be set without expiration dates, allowing access to files without authentication. This creates a vulnerability where users, even after being removed from groups, can still access sensitive files using old links.
+
+**How the Vulnerability Exists**  
+- Anyone Links provide direct file access, independent of group memberships, meaning changes to group access don't affect link-based access.
+- If a link doesn't expire, it remains active indefinitely, enabling former group members to access files despite updated permissions.
+
+**Creation Through Repeated Sharing**  
+- Repeatedly sharing files via unexpired Anyone Links distributes these links widely, often saved in users' mailboxes or shared externally.
+- Over time, as group memberships are tightened for security, these links persist, creating a gap where unauthorized users retain access.
+- This gap widens with each share, as links can be forwarded, increasing the risk of exposure.
+
+**Potential Security Risks**  
+- Former employees or unauthorized users with old links can access sensitive finance files, risking data breaches.
+- Malicious actors could exploit these links if obtained, leading to unauthorized data access or leaks.
+- The risk is heightened by the inability to automatically revoke access based on group changes, requiring manual link management.
+
+**Research Challenges**  
+- Uncovering this required extensive research, with increasing detail needed to establish the root cause, hindered by SharePoint's security restrictions.
+- Microsoft's throttling limits API requests, slowing data collection, while the 10,000-object query limit forced batch processing, risking missed links.
+- SharePoint App security added complexity, requiring careful permission management to access detailed link data.
+
+For more on SharePoint link management, see [Microsoft Learn](https://learn.microsoft.com/en-us/sharepoint/turn-external-sharing-on-or-off).
+
+---
+
+### Survey Note: Detailed Analysis of SharePoint Shared Links Vulnerability
+
+#### Introduction
+This investigation into SharePoint shared links without expiration dates reveals a significant security vulnerability, particularly for sensitive finance files. The research process was extensive, requiring increasing levels of detail to uncover the root cause, and was complicated by SharePoint's security measures, Microsoft's throttling, and query limits. Below, I detail the vulnerability, its creation through repeated sharing, potential risks, and the challenges faced in research.
+
+#### Vulnerability Description
+Shared links in SharePoint, specifically "Anyone Links," allow access to files without requiring user authentication or group membership. These links can be configured to never expire, creating a persistent access point. The vulnerability arises when these links remain active even after group memberships are updated to restrict access, enabling unauthorized users to bypass security controls.
+
+- **Anyone Links**: As per [Microsoft Learn](https://learn.microsoft.com/en-us/sharepoint/shareable-links-anyone-specific-people-organization), Anyone Links grant access to anyone with the link, without authentication, and cannot be audited, making them risky for sensitive data.
+- **Independence from Group Membership**: According to [SharePoint Maven](https://sharepointmaven.com/how-to-set-an-expiration-date-on-sharing-links-in-sharepoint-and-onedrive/), these links are not tied to group memberships, meaning changes in group access do not affect link-based access, leading to persistent vulnerabilities.
+
+#### Creation Through Repeated Sharing
+The vulnerability is created through the repeated sharing of files via unexpired Anyone Links, which distribute these links widely and persistently.
+
+- **Initial Sharing**: A user shares a file using an Anyone Link without an expiration date, as noted in [Microsoft Support](https://support.microsoft.com/en-us/office/share-sharepoint-files-or-folders-1fe37332-0f9a-4719-970e-d2578da4941c), which can be set to never expire by default.
+- **Link Distribution**: These links are often saved in users' mailboxes or shared externally, increasing their circulation, as per [SharePoint Maven](https://sharepointmaven.com/how-to-configure-expiration-and-permissions-options-for-anyone-links-in-sharepoint-online/).
+- **Security Updates**: Over time, group memberships are tightened for security, removing users from access, but the links remain active, creating a gap, as highlighted in [Office 365 for IT Pros](https://office365itpros.com/2024/07/04/sharing-links-expiration/).
+- **Persistent Access**: Each share without expiration adds to the risk, as links can be forwarded, amplifying potential exposure, according to [SharePoint Diary](https://www.sharepointdiary.com/2017/09/set-anonymous-link-expiration-in-sharepoint-online.html).
+
+#### Potential Security Risks
+This vulnerability poses significant risks, particularly for sensitive finance files, due to the exploitability of original links.
+
+- **Unauthorized Access**: Former employees or unauthorized users with old links can access files, risking data breaches, as noted in [Microsoft Learn](https://learn.microsoft.com/en-us/sharepoint/external-sharing-overview).
+- **Data Breach Potential**: Malicious actors could obtain these links, leading to unauthorized data access or leaks, a concern raised in [Office 365 for IT Pros](https://office365itpros.com/2021/11/16/sharepoint-expiring-access-policy/).
+- **No Automatic Revocation**: Changes in group membership do not revoke link access, requiring manual management, as per [SharePoint Maven](https://sharepointmaven.com/how-to-set-up-expiration-for-guest-access-to-sharepoint-and-onedrive/).
+
+#### Research Challenges
+Uncovering this issue required extensive research, with increasing detail needed, complicated by SharePoint's security, throttling, and query limits.
+
+- **Increasing Detail**: The investigation demanded a granular understanding of SharePoint's permission model, as detailed in [Microsoft Learn](https://learn.microsoft.com/en-us/sharepoint/modern-experience-sharing-permissions), to establish the root cause.
+- **SharePoint App Security**: Strict access controls for SharePoint Apps added complexity, requiring careful permission management, as noted in [SharePoint Diary](https://www.sharepointdiary.com/2017/09/set-anonymous-link-expiration-in-sharepoint-online.html).
+- **Throttling Limits**: Microsoft's API request throttling slowed data collection, forcing a piecemeal approach, per [Office 365 for IT Pros](https://office365itpros.com/2024/07/04/sharing-links-expiration/).
+- **10,000-Object Query Limit**: The 10,000-object query limit necessitated batch processing, increasing the risk of missing critical links, as per [Microsoft Learn](https://learn.microsoft.com/en-us/sharepoint/turn-external-sharing-on-or-off).
+
+#### Table: Key Research Challenges and Impacts
+
+| Challenge                     | Impact                                                                 |
+|-------------------------------|------------------------------------------------------------------------|
+| SharePoint App Security       | Required careful permission management, slowing down data access.      |
+| Throttling Limits             | Slowed data collection, requiring multiple API calls over time.        |
+| 10,000-Object Query Limit     | Forced batch processing, risking missed links if not managed properly. |
+
+#### Conclusion
+This vulnerability, created by repeatedly sharing unexpired Anyone Links, poses significant risks like unauthorized access and data breaches. Mitigating it requires setting expiration dates, regular audits, and using Specific People Links for sensitive data. The research effort, hindered by SharePoint's security and Microsoft's limits, underscores the need for proactive link management to protect sensitive finance files.
+
+**Key Citations**
+- [How to set an Expiration Date on sharing links in SharePoint and OneDrive](https://sharepointmaven.com/how-to-set-an-expiration-date-on-sharing-links-in-sharepoint-and-onedrive/)
+- [Set Anonymous Link Expiration Settings for SharePoint Online and OneDrive for Business](https://www.sharepointdiary.com/2017/09/set-anonymous-link-expiration-in-sharepoint-online.html)
+- [Using the SharePoint Expiring Access Policy](https://office365itpros.com/2021/11/16/sharepoint-expiring-access-policy/)
+- [Sharing Links Expiration Supported for all Link Types](https://office365itpros.com/2024/07/04/sharing-links-expiration/)
+- [Why do SharePoint Links Expire?](https://www.msdynamicsblog.com/why-exactly-do-sharepoint-links-expire/)
+- [How to Configure the Per-Site Anyone Link Expiration Policy for SharePoint Online Sites](https://office365itpros.com/2019/11/27/configure-per-site-anyone-link-expiration-policy-sharepoint-online-sites/)
+- [How to configure expiration and permissions options for Anyone links in SharePoint Online](https://sharepointmaven.com/how-to-configure-expiration-and-permissions-options-for-anyone-links-in-sharepoint-online/)
+- [How to set up expiration for guest access to SharePoint and OneDrive](https://sharepointmaven.com/how-to-set-up-expiration-for-guest-access-to-sharepoint-and-onedrive/)
+- [Best practices for unauthenticated sharing](https://learn.microsoft.com/en-us/microsoft-365/solutions/best-practices-anonymous-sharing?view=o365-worldwide)
+- [Manage sharing settings for SharePoint and OneDrive in Microsoft 365](https://learn.microsoft.com/en-us/sharepoint/turn-external-sharing-on-or-off)
+- [Share SharePoint files or folders](https://support.microsoft.com/en-us/office/share-sharepoint-files-or-folders-1fe37332-0f9a-4719-970e-d2578da4941c)
+- [Understand groups and permissions on a SharePoint site](https://support.microsoft.com/en-us/office/understand-groups-and-permissions-on-a-sharepoint-site-258e5f33-1b5a-4766-a503-d86655cf950d)
+- [Sharing & permissions in the SharePoint modern experience](https://learn.microsoft.com/en-us/sharepoint/modern-experience-sharing-permissions)
+- [The membership between Microsoft 365 Groups, Teams, Planner, and SharePoint](https://help.sharegate.com/en/articles/10236122-the-membership-between-microsoft-365-groups-teams-planner-and-sharepoint)
+- [Share a site](https://support.microsoft.com/en-us/office/share-a-site-958771a8-d041-4eb8-b51c-afea2eae3658)
+- [How to add Everyone from your organization to a SharePoint Site](https://sharepointmaven.com/how-to-add-everyone-from-your-organization-to-a-sharepoint-site/)
+- [How shareable links work in OneDrive and SharePoint in Microsoft 365](https://learn.microsoft.com/en-us/sharepoint/shareable-links-anyone-specific-people-organization)
+- [Find Groups on Sharepoint Online Sites](https://techcommunity.microsoft.com/discussions/sharepoint_general/find-groups-on-sharepoint-online-sites/3909033)
+- [Overview of external sharing in SharePoint and OneDrive in Microsoft 365](https://learn.microsoft.com/en-us/sharepoint/external-sharing-overview)
